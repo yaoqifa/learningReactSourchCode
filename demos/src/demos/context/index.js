@@ -1,7 +1,70 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 const { Provider, Consumer } = React.createContext('default')
+
+
+const twoThemes = {
+  light: {
+    foreground: '#000000',
+    background: '#eeeeee',
+  },
+  dark: {
+    foreground: '#ffffff',
+    background: '#0dc2b3',
+
+  }
+}
+const ThemeContext = React.createContext(twoThemes.dark)
+
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      themes: twoThemes.light
+    }
+    this.toggleTheme = () => {
+      this.setState(state => ({
+        themes: state.themes === twoThemes.dark ? twoThemes.light : twoThemes.dark
+      }))
+    }
+  }
+  render() {
+    return (
+      <ThemeContext.Provider value={this.state.themes}>
+        <Toolbar changeTheme={this.toggleTheme}/>
+      </ThemeContext.Provider>
+    )
+  }
+}
+
+function Toolbar(props) {
+  return (
+    <div>
+      <ThemeButton onClick={props.changeTheme}>
+        change Theme
+      </ThemeButton>
+    </div>
+  )
+}
+
+class ThemeButton extends React.Component {
+  // 挂载在 class 上的 contextType 属性会被重赋值为一个由 React.createContext() 创建的 Context 对象。
+  // 这能让你使用 this.context 来消费最近 Context 上的那个值。你可以在任何生命周期中访问到它，包括 render 函数中。
+  static contextType = ThemeContext
+  render() {
+    let props = this.props
+    let theme = this.context
+
+    return (
+      <button
+        {...props}
+        theme={theme}
+        style={{backgroundColor: theme.background}}
+      />
+    )
+  }
+}
+
 
 class Parent extends React.Component {
   state = {
@@ -9,21 +72,9 @@ class Parent extends React.Component {
     newContext: '456',
   }
 
-  getChildContext() {
-    return { value: this.state.childContext, a: 'aaaaa' }
-  }
-
   render() {
     return (
       <>
-        <div>
-          <label>childContext:</label>
-          <input
-            type="text"
-            value={this.state.childContext}
-            onChange={e => this.setState({ childContext: e.target.value })}
-          />
-        </div>
         <div>
           <label>newContext:</label>
           <input
@@ -38,57 +89,15 @@ class Parent extends React.Component {
   }
 }
 
-class Parent2 extends React.Component {
-  // { value: this.state.childContext, a: 'bbbbb' }
-  getChildContext() {
-    return { a: 'bbbbb' }
-  }
-
-  render() {
-    return this.props.children
-  }
-}
-
 function Child1(props, context) {
   console.log(context)
   return <Consumer>{value => <p>newContext: {value}</p>}</Consumer>
 }
 
-Child1.contextTypes = {
-  value: PropTypes.string,
-}
-
-class Child2 extends React.Component {
-  render() {
-    return (
-      <p>
-        childContext: {this.context.value} {this.context.a}
-      </p>
-    )
-  }
-}
-
-// Child2.contextType = Consumer
-
-Child2.contextTypes = {
-  value: PropTypes.string,
-  a: PropTypes.string,
-}
-
-Parent.childContextTypes = {
-  value: PropTypes.string,
-  a: PropTypes.string,
-}
-
-Parent2.childContextTypes = {
-  a: PropTypes.string,
-}
 
 export default () => (
   <Parent>
-    <Parent2>
       <Child1 />
-      <Child2 />
-    </Parent2>
+      <App />
   </Parent>
 )

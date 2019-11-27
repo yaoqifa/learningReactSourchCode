@@ -4,6 +4,8 @@ const TargetComponent = React.forwardRef((props, ref) => (
   <input type="text" ref={ref} />
 ))
 
+const FComponent = React.forwardRef((props, ref) => (<input type="text" ref={ref}/>))
+
 export default class Comp extends React.Component {
   constructor() {
     super()
@@ -15,6 +17,11 @@ export default class Comp extends React.Component {
   }
 
   render() {
-    return <TargetComponent ref={this.ref} />
+    return (
+      <>
+        <TargetComponent ref={this.ref} />
+        <FComponent ref={this.ref} />
+      </>
+    )
   }
 }

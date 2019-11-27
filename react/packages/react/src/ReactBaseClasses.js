@@ -136,6 +136,15 @@ function PureComponent(props, context, updater) {
   this.updater = updater || ReactNoopUpdateQueue;
 }
 
+// if (ctor.prototype && ctor.prototype.isPureReactComponent) {
+//   return (
+//     !shallowEqual(oldProps, newProps) || !shallowEqual(oldState, newState)
+//   );
+// }
+// 这是检查组件是否需要更新的一个判断，React中对比一个ClassComponent是否需要更新，只有两个地方。
+// 一是看有没有shouldComponentUpdate方法，二就是这里的PureComponent判断
+
+// 使用组合继承方式
 const pureComponentPrototype = (PureComponent.prototype = new ComponentDummy());
 pureComponentPrototype.constructor = PureComponent;
 // Avoid an extra prototype jump for these methods.

@@ -9,6 +9,13 @@ import {REACT_FORWARD_REF_TYPE} from 'shared/ReactSymbols';
 
 import warningWithoutStack from 'shared/warningWithoutStack';
 
+// forwardRef是用来解决HOC组件传递ref的问题的，所谓HOC就是Higher Order Component，比如使用redux的时候，
+// 我们用connect来给组件绑定需要的state，这其中其实就是给我们的组件在外部包了一层组件，
+// 然后通过...props的方式把外部的props传入到实际组件。forwardRef的使用方法如下：
+
+// const TargetComponent = React.forwardRef((props, ref) => (
+//   <TargetComponent ref={ref} />
+// ))
 export default function forwardRef<Props, ElementType: React$ElementType>(
   render: (props: Props, ref: React$Ref<ElementType>) => React$Node,
 ) {

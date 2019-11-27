@@ -14,6 +14,20 @@ import type {ReactContext} from 'shared/ReactTypes';
 import warningWithoutStack from 'shared/warningWithoutStack';
 import warning from 'shared/warning';
 
+// createContext 的使用
+// const { Provider, Consumer } = React.createContext('defaultValue')
+
+// const ProviderComp = (props) => (
+//   <Provider value={'realValue'}>
+//     {props.children}
+//   </Provider>
+// )
+
+// const ConsumerComp = () => (
+//   <Consumer>
+//     {(value) => <p>{value}</p>}
+//   </Consumber>
+// )
 export function createContext<T>(
   defaultValue: T,
   calculateChangedBits: ?(a: T, b: T) => number,
