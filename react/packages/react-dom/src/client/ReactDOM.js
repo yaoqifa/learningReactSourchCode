@@ -479,12 +479,12 @@ function legacyCreateRootFromDOMContainer(
           (rootSibling: any).hasAttribute(ROOT_ATTRIBUTE_NAME)
         ) {
           warned = true;
-          warningWithoutStack(
-            false,
-            'render(): Target node has markup rendered by React, but there ' +
-              'are unrelated nodes as well. This is most commonly caused by ' +
-              'white-space inserted around server-rendered markup.',
-          );
+          // warningWithoutStack(
+          //   false,
+          //   'render(): Target node has markup rendered by React, but there ' +
+          //     'are unrelated nodes as well. This is most commonly caused by ' +
+          //     'white-space inserted around server-rendered markup.',
+          // );
         }
       }
       container.removeChild(rootSibling);
