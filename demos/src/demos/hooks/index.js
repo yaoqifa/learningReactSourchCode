@@ -4,8 +4,10 @@
 
 import React, { useState, useEffect } from 'react'
 
+import MyHooks from './hooks-my'
+
 export default () => {
-  const [name, setName] = useState('jokcy')
+  const [name2, setName2] = useState('jokcy2')
 
   useEffect(() => {
     console.log('component update')
@@ -17,8 +19,9 @@ export default () => {
 
   return (
     <>
-      <p>My Name is: {name}</p>
-      <input type="text" value={name} onChange={e => setName(e.target.value)} />
+      <p>My Name is: {name2}</p>
+      <input type="text" value={name2} onChange={e => setName2(e.target.value)} />
+      <MyHooks name="abc"/>
     </>
   )
 }

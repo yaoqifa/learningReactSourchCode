@@ -51,7 +51,7 @@ function escapeUserProvidedKey(text) {
 }
 
 const POOL_SIZE = 10;
-const traverseContextPool = [];
+const traverseContextPool = []; // 对象池,对象可复用，避免声明过多的对象，减少内存消耗
 function getPooledTraverseContext(
   mapResult,
   keyPrefix,
@@ -289,6 +289,7 @@ function mapSingleChildIntoContext(bookKeeping, child, childKey) {
   const {result, keyPrefix, func, context} = bookKeeping;
 
   let mappedChild = func.call(context, child, bookKeeping.count++);
+  // 递归调用
   if (Array.isArray(mappedChild)) {
     mapIntoWithKeyPrefixInternal(mappedChild, result, childKey, c => c);
   } else if (mappedChild != null) {
